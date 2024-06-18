@@ -49,7 +49,7 @@ async function descriptionText_merge() {
    const code = document.querySelector('.language-java')
    // console.log(code.innerHTML)
    code.innerHTML = `// C++ program for Merge Sort
-#include <iostream>
+#include &lt;bits/stdc++.h&gt;
 using namespace std;
  
 // Merges two subarrays of array[].

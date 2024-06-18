@@ -37,8 +37,7 @@ async function descriptionText_insertion() {
     const code = document.querySelector('#code_java')
     // console.log(code.innerHTML)
     code.innerHTML = `// C++ program for insertion sort
-
-    #include <bits/stdc++.h>
+    #include &lt;bits/stdc++.h&gt;
     using namespace std;
 
     // Function to sort an array using

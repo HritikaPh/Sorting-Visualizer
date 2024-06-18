@@ -38,93 +38,87 @@ async function descriptionText_quick() {
 
     const code = document.querySelector('#code_java')
     // console.log(code.innerHTML)
-    code.innerHTML = `// Java implementation of QuickSort
-import java.io.*;
-
-class GFG {
-
-// A utility function to swap two elements
-static void swap(int[] arr, int i, int j)
-{
-    int temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-}
-
-/* This function takes last element as pivot, places
-the pivot element at its correct position in sorted
-array, and places all smaller (smaller than pivot)
-to left of pivot and all greater elements to right
-of pivot */
-static int partition(int[] arr, int low, int high)
-{
-
-    // pivot
-    int pivot = arr[high];
-
-    // Index of smaller element and
-    // indicates the right position
-    // of pivot found so far
-    int i = (low - 1);
-
-    for (int j = low; j <= high - 1; j++) {
-
-        // If current element is smaller
-        // than the pivot
-        if (arr[j] < pivot) {
-
-            // Increment index of
-            // smaller element
-            i++;
-            swap(arr, i, j);
+    code.innerHTML = `#include <iostream>
+using namespace std;
+ 
+int partition(int* arr, int start, int end)
+{   
+      // assuming last element as pivotElement
+    int index = 0, pivotElement = arr[end], pivotIndex;
+    int* temp = new int[end - start + 1]; // making an array whose size is equal to current partition range...
+    for (int i = start; i <= end; i++) // pushing all the elements in temp which are smaller than pivotElement
+    {
+        if(arr[i] < pivotElement)
+        {
+            temp[index] = arr[i];
+            index++;
         }
     }
-    swap(arr, i + 1, high);
-    return (i + 1);
-}
-
-/* The main function that implements QuickSort
-        arr[] --> Array to be sorted,
-        low --> Starting index,
-        high --> Ending index
-*/
-static void quickSort(int[] arr, int low, int high)
-{
-    if (low < high) {
-
-        // pi is partitioning index, arr[p]
-        // is now at right place
-        int pi = partition(arr, low, high);
-
-        // Separately sort elements before
-        // partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+ 
+    temp[index] = pivotElement; // pushing pivotElement in temp
+    index++;
+ 
+    for (int i = start; i < end; i++) // pushing all the elements in temp which are greater than pivotElement
+    {
+        if(arr[i] > pivotElement)
+        {
+            temp[index] = arr[i];
+            index++;
+        }
     }
+  // all the elements now in temp array are order : 
+  // leftmost elements are lesser than pivotElement and rightmost elements are greater than pivotElement
+               
+     
+     
+    index = 0;
+    for (int i = start; i <= end; i++) // copying all the elements to original array i.e arr
+    {   
+        if(arr[i] == pivotElement)
+        {
+              // for getting pivot index in the original array.
+              // we need the pivotIndex value in the original and not in the temp array
+            pivotIndex = i;
+        }
+        arr[i] = temp[index];
+        index++;
+    }
+    return pivotIndex; // returning pivotIndex
 }
-
-// Function to print an array
-static void printArray(int[] arr, int size)
-{
+ 
+void quickSort(int* arr, int start, int end)
+{  
+    if(start < end)
+    {   
+        int partitionIndex = partition(arr, start, end); // for getting partition
+        quickSort(arr, start, partitionIndex - 1); // sorting left side array
+        quickSort(arr, partitionIndex + 1, end); // sorting right side array
+    }
+    return;
+}
+ 
+int main() 
+{    
+    int size = 9;
+    int arr[size] = {5, 12, 7, 1, 13, 2 ,23, 11, 18};
+       
+      cout << "Unsorted array : ";
     for (int i = 0; i < size; i++)
-        System.out.print(arr[i] + " ");
-
-    System.out.println();
+    {
+        cout << arr[i] << " ";
+    }
+    printf("\n");
+ 
+    quickSort(arr, 0, size - 1);
+     
+      cout << "Sorted array : ";
+    for (int i = 0; i < size; i++)
+    {
+       cout << arr[i] << " ";
+    }
+   
+      return 0;
 }
-
-// Driver Code
-public static void main(String[] args)
-{
-    int[] arr = { 10, 7, 8, 9, 1, 5 };
-    int n = arr.length;
-
-    quickSort(arr, 0, n - 1);
-    System.out.println("Sorted array: ");
-    printArray(arr, n);
-}
-}
-
-
 
 `
     const time = document.querySelector('#time')

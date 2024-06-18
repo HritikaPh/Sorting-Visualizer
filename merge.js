@@ -48,103 +48,121 @@ async function descriptionText_merge() {
 
    const code = document.querySelector('.language-java')
    // console.log(code.innerHTML)
-   code.innerHTML = `/* Java program for Merge Sort */
-class MergeSort {
-// Merges two subarrays of arr[].
-// First subarray is arr[l..m]
-// Second subarray is arr[m+1..r]
-void merge(int arr[], int l, int m, int r)
+   code.innerHTML = `// C++ program for Merge Sort
+#include <iostream>
+using namespace std;
+ 
+// Merges two subarrays of array[].
+// First subarray is arr[begin..mid]
+// Second subarray is arr[mid+1..end]
+void merge(int array[], int const left, 
+           int const mid, int const right)
 {
-   // Find sizes of two subarrays to be merged
-   int n1 = m - l + 1;
-   int n2 = r - m;
-
-   /* Create temp arrays */
-   int L[] = new int[n1];
-   int R[] = new int[n2];
-
-   /*Copy data to temp arrays*/
-   for (int i = 0; i < n1; ++i)
-      L[i] = arr[l + i];
-   for (int j = 0; j < n2; ++j)
-      R[j] = arr[m + 1 + j];
-
-   /* Merge the temp arrays */
-
-   // Initial indexes of first and second subarrays
-   int i = 0, j = 0;
-
-   // Initial index of merged subarray array
-   int k = l;
-   while (i < n1 && j < n2) {
-      if (L[i] <= R[j]) {
-         arr[k] = L[i];
-         i++;
-      }
-      else {
-         arr[k] = R[j];
-         j++;
-      }
-      k++;
-   }
-
-   /* Copy remaining elements of L[] if any */
-   while (i < n1) {
-      arr[k] = L[i];
-      i++;
-      k++;
-   }
-
-   /* Copy remaining elements of R[] if any */
-   while (j < n2) {
-      arr[k] = R[j];
-      j++;
-      k++;
-   }
+    auto const subArrayOne = mid - left + 1;
+    auto const subArrayTwo = right - mid;
+ 
+    // Create temp arrays
+    auto *leftArray = new int[subArrayOne],
+         *rightArray = new int[subArrayTwo];
+ 
+    // Copy data to temp arrays leftArray[] 
+    // and rightArray[]
+    for (auto i = 0; i < subArrayOne; i++)
+        leftArray[i] = array[left + i];
+    for (auto j = 0; j < subArrayTwo; j++)
+        rightArray[j] = array[mid + 1 + j];
+ 
+    // Initial index of first sub-array
+    // Initial index of second sub-array
+    auto indexOfSubArrayOne = 0, 
+         indexOfSubArrayTwo = 0; 
+ 
+    // Initial index of merged array
+    int indexOfMergedArray = left; 
+ 
+    // Merge the temp arrays back into 
+    // array[left..right]
+    while (indexOfSubArrayOne < subArrayOne && 
+           indexOfSubArrayTwo < subArrayTwo) 
+    {
+        if (leftArray[indexOfSubArrayOne] <= 
+            rightArray[indexOfSubArrayTwo]) 
+        {
+            array[indexOfMergedArray] = 
+            leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else
+        {
+            array[indexOfMergedArray] = 
+            rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+     
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (indexOfSubArrayOne < subArrayOne) 
+    {
+        array[indexOfMergedArray] = 
+        leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+ 
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwo) 
+    {
+        array[indexOfMergedArray] = 
+        rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
 }
-
-// Main function that sorts arr[l..r] using
-// merge()
-void sort(int arr[], int l, int r)
+ 
+// begin is for left index and end is
+// right index of the sub-array
+// of arr to be sorted */
+void mergeSort(int array[], 
+               int const begin, 
+               int const end)
 {
-   if (l < r) {
-      // Find the middle point
-      int m = l + (r - l) / 2;
-
-      // Sort first and second halves
-      sort(arr, l, m);
-      sort(arr, m + 1, r);
-
-      // Merge the sorted halves
-      merge(arr, l, m, r);
-   }
+    // Returns recursively
+    if (begin >= end)
+        return; 
+ 
+    auto mid = begin + (end - begin) / 2;
+    mergeSort(array, begin, mid);
+    mergeSort(array, mid + 1, end);
+    merge(array, begin, mid, end);
 }
-
-/* A utility function to print array of size n */
-static void printArray(int arr[])
+ 
+// UTILITY FUNCTIONS
+// Function to print an array
+void printArray(int A[], int size)
 {
-   int n = arr.length;
-   for (int i = 0; i < n; ++i)
-      System.out.print(arr[i] + " ");
-   System.out.println();
+    for (auto i = 0; i < size; i++)
+        cout << A[i] << " ";
+    cout<<endl;
 }
-
+ 
 // Driver code
-public static void main(String args[])
+int main()
 {
-   int arr[] = { 12, 11, 13, 5, 6, 7 };
-
-   System.out.println("Given Array");
-   printArray(arr);
-
-   MergeSort ob = new MergeSort();
-   ob.sort(arr, 0, arr.length - 1);
-
-   System.out.println("\nSorted array");
-   printArray(arr);
+    int arr[] = { 12, 11, 13, 5, 6, 7 };
+    auto arr_size = sizeof(arr) / sizeof(arr[0]);
+ 
+    cout << "Given array is "<<endl;
+    printArray(arr, arr_size);
+ 
+    mergeSort(arr, 0, arr_size - 1);
+ 
+    cout << "Sorted array is "<<endl;
+    printArray(arr, arr_size);
+    return 0;
 }
-}
-
 
 `
    const time = document.querySelector('#time')
